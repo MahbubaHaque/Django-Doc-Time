@@ -1,0 +1,7 @@
+/docenv
+*.log
+*.pot
+*.pyc
+__pycache__
+*.sqlite3
+media

@@ -13,9 +13,26 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
+from django.shortcuts import render
+from django.conf import settings
+from django.conf.urls.static import static
+from django.urls import path
+from users.models import Profile
+
+def home(request):
+    doctors = Profile.objects.filter(user_type = 'doctor').all()[:5]
+    return render(request,'base.html',{ 'doctors': doctors })
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    path('vediochat/', include('videochat.urls') ),
+    path('users/', include('users.urls') ),
+    path('general_services/',include('general_services.urls')),
+    url(r'^home/',home, name = 'home'), 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

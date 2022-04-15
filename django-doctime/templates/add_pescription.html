@@ -1,0 +1,35 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div style="margin-top: 50px"></div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      {% if messages %} {% for message in messages %}
+
+      <div
+        class="alert alert-{{message.tags}} text-center messages"
+        role="alert"
+      >
+        {{ message }}
+      </div>
+      {% endfor %} {% endif %}
+    </div>
+  </div>
+
+  <section class="page-section portfolio" id="portfolio">
+    <h1 class="text-center my-2">Please suggest medicine and test here</h1>
+    <div class="row">
+      <div class="col-md-6 offset-3">
+        <form method="POST">
+          {% csrf_token %} {% for field in form %}
+          <label>{{ field.label }}</label>
+          <br />
+          {{ field }}
+          <br />
+          {% endfor %}
+          <button class="btn btn-success my-3">Confirm</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock content %}

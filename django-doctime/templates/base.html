@@ -1,0 +1,308 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Doctime Online</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script
+      src="https://use.fontawesome.com/releases/v5.15.4/js/all.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Google fonts-->
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link
+      rel="stylesheet"
+      href="{% static 'vendor/css/owl.carousel.min.css' %}"
+    />
+    <link
+      rel="stylesheet"
+      href="{% static 'vendor/css/owl.theme.default.min.css' %}"
+    />
+    <!-- Custom CSS -->
+    <link
+      type="text/css"
+      href="{% static 'vendor/css/styles.css' %}"
+      rel="stylesheet"
+    />
+    {% block CSS %} {% endblock CSS %}
+  </head>
+
+  <body id="page-top">
+    <!-- Navigation-->
+    {% if messages %} {% for message in messages %}
+    <div class="alert alert-success text-center messages" role="alert">
+      {{ message }}
+    </div>
+    {% endfor %} {% endif %}
+    <nav
+      class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top"
+      id="mainNav"
+    >
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">Doctime</a>
+        <button
+          class="navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarResponsive"
+          aria-controls="navbarResponsive"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          Menu
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item mx-0 mx-lg-1">
+              <a class="nav-link py-3 px-0 px-lg-3 rounded" href="#about"
+                >About</a
+              >
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item mx-0 mx-lg-1">
+              <a
+                class="nav-link py-3 px-0 px-lg-3 rounded"
+                href="{% url 'videocall' %}"
+                >Video Call</a
+              >
+            </li>
+            <li class="nav-item mx-0 mx-lg-1">
+              <a
+                class="nav-link py-3 px-0 px-lg-3 rounded"
+                href="{% url 'profile' user.id %}"
+                >{{ user.username }}</a
+              >
+            </li>
+            <li class="nav-item mx-0 mx-lg-1">
+              <a
+                class="nav-link py-3 px-0 px-lg-3 rounded"
+                href="{% url 'logout' %}"
+                >Log out</a
+              >
+            </li>
+            {% else %}
+            <li class="nav-item mx-0 mx-lg-1">
+              <a
+                class="nav-link py-3 px-0 px-lg-3 rounded"
+                href="{% url 'signup' %}"
+                >Sign Up</a
+              >
+            </li>
+            <li class="nav-item mx-0 mx-lg-1">
+              <a
+                class="nav-link py-3 px-0 px-lg-3 rounded"
+                href="{% url 'login' %}"
+                >Log in</a
+              >
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+    {% block content %}
+    <!-- Masthead-->
+    <header class="masthead bg-primary text-white text-center">
+      <div class="container d-flex align-items-center flex-column">
+        <!-- Masthead Avatar Image-->
+        <img
+          style="border-radius: 5%"
+          class="masthead-avatar mb-5"
+          src="..{% static 'images/doctor.png' %}"
+          alt="..."
+        />
+        <!-- Masthead Heading-->
+        <h1 class="masthead-heading text-uppercase mb-0">
+          Online Health Care Platform
+        </h1>
+        <!-- Icon Divider-->
+        <div class="divider-custom divider-light">
+          <div class="divider-custom-line"></div>
+          <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+          <div class="divider-custom-line"></div>
+        </div>
+        <!-- Masthead Subheading-->
+        <p class="masthead-subheading font-weight-light mb-0">
+          Online doctor solution
+        </p>
+      </div>
+    </header>
+    <!-- Portfolio Section-->
+    <section class="page-section portfolio" id="portfolio">
+      <h1 class="text-center my-2">Doctor list is here</h1>
+      <div class="owl-carousel">
+        {% for doctor in doctors %}
+        <div class="card" style="width: 18rem">
+          <div class="card-body">
+            <h5 class="card-title">{{ doctor.name }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ doctor.location }}</h6>
+            <h6 class="card-subtitle mb-2 text-muted">{{ doctor.fee }}</h6>
+            <a
+              href="{% url 'book_appoinment' doctor.id %}"
+              class="btn btn-sm btn-primary"
+              >Appoinment</a
+            >
+            <a
+              href="{% url 'doctor_details' doctor.id %}"
+              class="btn btn-sm btn-primary"
+              >Details</a
+            >
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      <div class="row">
+        <div class="col-md-6 offset-5">
+          <a
+            href="{% url 'doctor_list' %}"
+            class="btn btn-sm btn-primary text-center my-2"
+            >See More</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section-->
+    <section class="page-section bg-primary text-white mb-0" id="about">
+      <div class="container">
+        <!-- About Section Heading-->
+        <h2 class="page-section-heading text-center text-uppercase text-white">
+          About
+        </h2>
+        <!-- Icon Divider-->
+        <div class="divider-custom divider-light">
+          <div class="divider-custom-line"></div>
+          <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+          <div class="divider-custom-line"></div>
+        </div>
+        <!-- About Section Content-->
+        <div class="row">
+          <div class="col-lg-4 ms-auto">
+            <p class="lead">
+              FIRST PLATFORM DEVELOPED BY US Consult online without delay one of
+              our GP practicing in Bangladesh without delay and obtain a
+              prescription, consultation reimbursed by basic insurance
+            </p>
+          </div>
+          <div class="col-lg-4 me-auto">
+            <p class="lead">
+              Search Doctor. Get The Best Result About Your Sickness.With
+              OnlineDoctor, no matter where you are, you can receive a quick,
+              cost-effective (CHF 55) specialist assessment of your problem.
+            </p>
+          </div>
+        </div>
+        <!-- About Section Button-->
+        <div class="text-center mt-4">
+          <!-- <a class="btn btn-xl btn-outline-light" href="">
+                Join Call
+            </a> -->
+        </div>
+      </div>
+    </section>
+    <!-- Footer-->
+    <footer class="footer text-center">
+      <div class="container">
+        <div class="row">
+          <!-- Footer Location-->
+          <div class="col-lg-4 mb-5 mb-lg-0">
+            <h4 class="text-uppercase mb-4">Location</h4>
+            <p class="lead mb-0">
+              Farmgate Dhaka
+              <br />
+              UAP
+            </p>
+          </div>
+          <!-- Footer Social Icons-->
+          <div class="col-lg-4 mb-5 mb-lg-0">
+            <h4 class="text-uppercase mb-4">Around the Web</h4>
+            <a class="btn btn-outline-light btn-social mx-1" href="#!"
+              ><i class="fab fa-fw fa-facebook-f"></i
+            ></a>
+            <a class="btn btn-outline-light btn-social mx-1" href="#!"
+              ><i class="fab fa-fw fa-twitter"></i
+            ></a>
+            <a class="btn btn-outline-light btn-social mx-1" href="#!"
+              ><i class="fab fa-fw fa-linkedin-in"></i
+            ></a>
+            <a class="btn btn-outline-light btn-social mx-1" href="#!"
+              ><i class="fab fa-fw fa-dribbble"></i
+            ></a>
+          </div>
+          <!-- Footer About Text-->
+          <div class="col-lg-4">
+            <h4 class="text-uppercase mb-4">About Me</h4>
+            <p class="lead mb-0">
+              UAP
+              <a href="http://startbootstrap.com">Video app</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+    {% endblock content %}
+    <!-- Copyright Section-->
+    <div class="copyright py-4 text-center text-white">
+      <div class="container">
+        <small>Copyright &copy; Your Website 2021</small>
+      </div>
+    </div>
+    <!-- Portfolio Modals-->
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Core theme JS-->
+    <script src="{% static  'vendor/js/scripts.js' %}"></script>
+    <script src="{% static 'vendor/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static  'custom/js/base.js' %}"></script>
+    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <!-- * *                               SB Forms JS                               * *-->
+    <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+    <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+    <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+    {% block JS %} {% endblock JS %}
+  </body>
+</html>

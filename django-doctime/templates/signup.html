@@ -1,0 +1,46 @@
+{%  extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div style="margin-top: 50px;"></div>
+<h1>Sign up page</h1>
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-6 offset-md-3"> 
+              {% if messages %}
+                {% for message in messages %}
+            
+                  <div class="alert alert-{{message.tags}} text-center messages" role="alert">
+                    {{ message }}
+                  </div>
+                {% endfor %}
+              {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 offset-3">
+                <form method="POST">
+                    {% csrf_token %}
+                
+                    {% for field in form %}
+                        <label>{{ field.label }}</label> 
+                        <br>
+                            {{ field }} 
+                        <br>  
+                    {% endfor %}
+                    <select name="user_type" class="form-select" aria-label="Default select example">
+                        <option selected>Open this select menu</option>
+                        <option value="1" >Doctor</option>
+                        <option value="2" >Patient</option>
+                      </select>
+                    <button class="btn btn-success my-3"> Sign Up</button>
+                </form>          
+            </div>
+          
+        </div>
+
+    </div>
+{% endblock content %}

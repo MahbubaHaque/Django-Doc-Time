@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     #custom app
     'users',
     'general_services',
+    'videochat',
+    #third-party
+    'channels',
 ]
 
 MIDDLEWARE = [
@@ -57,7 +60,9 @@ ROOT_URLCONF = 'main.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR,'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -121,3 +126,23 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+    '/var/www/static/',
+]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+
+ASGI_APPLICATION = 'main.asgi.application'
+
+CHANNEL_LAYERS={
+    "default": {
+        "BACKEND": "channels.layers.InMemoryChannelLayer"
+     }
+}
+
+ENCRYPT_KEY = b'ecLg-tymzspI0CPGgHKbjPwN004gs9PIzcUYT2_cIDQ='

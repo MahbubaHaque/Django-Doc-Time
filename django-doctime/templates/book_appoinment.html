@@ -1,0 +1,58 @@
+{%  extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div style="margin-top: 200px;"></div>
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-6 offset-md-3"> 
+          {% if messages %}
+            {% for message in messages %}
+        
+              <div class="alert alert-{{message.tags}} text-center messages" role="alert">
+                {{ message }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 offset-md-3"> 
+        <div class="card">
+          <div class="card-header">
+            <h3>Book Your appoinment</h3> 
+          </div>
+          <div class="card-body">  
+            <form method="POST">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="appoinment_date">Appoinment Date</label>
+                <input name="appoinment_date" type="date" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="contact_no">Contact No</label>
+                <input name="contact_no" type="text" class="form-control"  placeholder="+880">
+              </div>
+              <div class="form-group">
+                <label for="age">Age</label>
+                <input name="age" type="number" class="form-control"  placeholder="age">
+              </div>
+              <button class="btn btn-sm btn-primary">Confirm</button>
+            </form>
+
+          </div>
+        </div>
+
+      </div>
+      
+    </div>
+
+</div>
+{% endblock content %}
+
+{% block JS %}
+
+{% endblock JS %}

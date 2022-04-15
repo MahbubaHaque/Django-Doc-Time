@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from general_services.utils import encrypt, decrypt
 
 class Medicine(models.Model):
     name = models.CharField(max_length=100)
@@ -8,6 +9,11 @@ class Medicine(models.Model):
     def __str__(self):
         return self.name
 
+class MedicalTest(models.Model):
+    name = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.name
 
 class Notification(models.Model):
     message = models.TextField()
@@ -19,19 +25,24 @@ class Notification(models.Model):
 class AppointMent(models.Model):
     doctor = models.ForeignKey(User, on_delete=models.CASCADE, related_name='doctors')
     patient = models.ForeignKey(User, on_delete=models.CASCADE, related_name='patients')
-    appointment_time = models.DateTimeField(auto_now_add=True)
-
-
-class Pescription(models.Model):
-    appointment = models.ForeignKey(AppointMent, on_delete=models.CASCADE)
-    follow_up = models.DateTimeField(auto_now_add=True)
+    appointment_time = models.DateField()
+    age = models.IntegerField(default=0)
+    contact_no = models.CharField(max_length=100, default='+880')
+    def __str__(self):
+        return f'{self.patient.username.upper()} has appoinment at {self.appointment_time}'
 
 
 class PescribedMedicine(models.Model):
-    pescription = models.ForeignKey(AppointMent, on_delete=models.CASCADE)
-    medicine = models.ManyToManyField(Medicine,related_name='medicines')
-    doctor = models.ForeignKey(User, on_delete=models.CASCADE)
+    comments = models.CharField(max_length=50000, null=True)
+    appointment = models.ForeignKey(AppointMent, on_delete=models.CASCADE,null=True)
+    medicine = models.ManyToManyField(Medicine,related_name='medicines',null=True)
+    test = models.ManyToManyField(MedicalTest,related_name='tests',null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
 
+    def save(self, *args, **kwargs):
+        self.comments = encrypt(self.comments)
+        super(PescribedMedicine, self).save(*args, **kwargs)
+        
+    def __str__(self):
+        return f"appoinment no {self.pk}"

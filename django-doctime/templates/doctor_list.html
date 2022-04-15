@@ -1,0 +1,43 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div style="margin-top: 50px"></div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      {% if messages %} {% for message in messages %}
+
+      <div
+        class="alert alert-{{message.tags}} text-center messages"
+        role="alert"
+      >
+        {{ message }}
+      </div>
+      {% endfor %} {% endif %}
+    </div>
+  </div>
+
+  <section class="page-section portfolio" id="portfolio">
+    <h1 class="text-center my-2">Doctor list is here</h1>
+    <div class="owl-carousel">
+      {% for doctor in doctors %}
+      <div class="card" style="width: 18rem">
+        <div class="card-body">
+          <h5 class="card-title">{{doctor.name}}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{ doctor.location }}</h6>
+          <h6 class="card-subtitle mb-2 text-muted">{{ doctor.fee }}</h6>
+          <a
+            href="{% url 'book_appoinment' doctor.id %}"
+            class="btn btn-sm btn-primary"
+            >Appoinment</a
+          >
+          <a
+            href="{% url 'doctor_details' doctor.id %}"
+            class="btn btn-sm btn-primary"
+            >Details</a
+          >
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </section>
+</div>
+{% endblock content %}

@@ -1,0 +1,41 @@
+{%  extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div style="margin-top: 50px;"></div>
+<h1>Sign up page</h1>
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-6 offset-md-3"> 
+              {% if messages %}
+                {% for message in messages %}
+            
+                  <div class="alert alert-{{message.tags}} text-center messages" role="alert">
+                    {{ message }}
+                  </div>
+                {% endfor %}
+              {% endif %}
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 offset-3">
+                <form method="POST">
+                    {% csrf_token %}
+                
+                    {% for field in form %}
+                        <label>{{ field.label }}</label> 
+                        <br>
+                            {{ field }} 
+                        <br>  
+                    {% endfor %}
+                    <button class="btn btn-success my-3"> Log in </button>
+                </form>          
+            </div>
+          
+        </div>
+
+    </div>
+{% endblock content %}

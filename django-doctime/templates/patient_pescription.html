@@ -1,0 +1,61 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div style="margin-top: 50px"></div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      {% if messages %} {% for message in messages %}
+
+      <div
+        class="alert alert-{{message.tags}} text-center messages"
+        role="alert"
+      >
+        {{ message }}
+      </div>
+      {% endfor %} {% endif %}
+    </div>
+  </div>
+
+  <section class="page-section portfolio" id="portfolio">
+    <div class="row">
+      {% if pescription is None %}
+      <div class="col-md-6 offset-3">
+        <h3 class="text-center text-danger">
+          Doctor didn't provide pescription yet
+        </h3>
+      </div>
+      {% else %}
+      <div class="col-md-6 offset-3 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="text-center text-info">
+              Comment From doctor you meet at {{pescription.created_at}}
+            </h4>
+            <p class="text-center text-info">{{pescription.comments}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <h3 class="text-center text-danger">Given Test</h3>
+          <ul class="list-group list-group-flush">
+            {% for test_name in pescription.test.all %}
+            <li class="list-group-item text-warning">{{test_name}}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <h3 class="text-center text-danger">Given Medicine</h3>
+          <ul class="list-group list-group-flush">
+            {% for medicine_name in pescription.medicine.all %}
+            <li class="list-group-item text-warning">{{medicine_name}}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+</div>
+{% endblock content %}

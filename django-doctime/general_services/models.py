@@ -6,14 +6,36 @@ from general_services.utils import encrypt, decrypt
 class Medicine(models.Model):
     name = models.CharField(max_length=100)
     
+    def save(self, *args, **kwargs):
+        self.name = encrypt(self.name)
+        super(Medicine, self).save(*args, **kwargs)
+    
     def __str__(self):
-        return self.name
+        return self.get_name()
+    
+    def get_name(self):
+        try:
+            return decrypt(self.name)
+        except:
+            self.save()
+            return decrypt(self.name)
 
 class MedicalTest(models.Model):
     name = models.CharField(max_length=100)
     
+    def save(self, *args, **kwargs):
+        self.name = encrypt(self.name)
+        super(MedicalTest, self).save(*args, **kwargs)
+
+    def get_name(self):
+        try:
+            return decrypt(self.name)
+        except:
+            self.save()
+            return decrypt(self.name)
+
     def __str__(self):
-        return self.name
+        return self.get_name()
 
 class Notification(models.Model):
     message = models.TextField()
@@ -44,5 +66,5 @@ class PescribedMedicine(models.Model):
         self.comments = encrypt(self.comments)
         super(PescribedMedicine, self).save(*args, **kwargs)
         
-    def __str__(self):
-        return f"appoinment no {self.pk}"
+    # def __str__(self):
+    #     return f"appoinment no {self.pk}"

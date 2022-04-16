@@ -31,9 +31,8 @@ def book_appoinment(request, doctor_id):
         appoinment_time = request.POST.get('appoinment_date')
         contact_no = request.POST.get('contact_no') 
         age = request.POST.get('age')
-        doctor = User.objects.filter(id=doctor_id)
-        print(doctor.pk)
-        
+        doctor = User.objects.get(pk=doctor_id)
+
         appoinment = AppointMent(
             doctor=doctor,
             patient=request.user,
